@@ -26,11 +26,15 @@
     ]
   },
   "dependencies": {
+    "ethereum-qr-code": "^0.3.0",
+    "ethers": "^5.0.24",
+    "magic-sdk": "^4.0.2",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@magic-sdk/types": "^3.0.1",
     "@testing-library/react": "^10.0.1",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.5",
