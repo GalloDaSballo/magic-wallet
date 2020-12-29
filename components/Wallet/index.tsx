@@ -1,5 +1,4 @@
 import { useUser, useLogout } from '../../context/UserContext'
-
 const Wallet = (): JSX.Element => {
   const user = useUser()
   const logout = useLogout()

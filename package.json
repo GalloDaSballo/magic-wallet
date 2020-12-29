@@ -28,6 +28,7 @@
   "dependencies": {
     "ethereum-qr-code": "^0.3.0",
     "ethers": "^5.0.24",
+    "isomorphic-unfetch": "^3.1.0",
     "magic-sdk": "^4.0.2",
     "next": "latest",
     "react": "^16.13.1",
