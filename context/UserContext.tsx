@@ -1,6 +1,6 @@
 import { Magic } from 'magic-sdk';
 import {
-  createContext, useState, useEffect
+  createContext, useState, useEffect, useContext
 } from 'react';
 import { ethers } from 'ethers';
 
@@ -84,4 +84,22 @@ export function UserContextProvider({ children }) {
       {children}
     </UserContext.Provider>
   );
+}
+
+export const useLogin = () => {
+  const { login } = useContext(UserContext);
+
+  return login
+}
+
+export const useLogout = () => {
+  const { logout } = useContext(UserContext);
+
+  return logout
+}
+
+export const useUser = () => {
+  const { user } = useContext(UserContext);
+
+  return user
 }

@@ -1,11 +1,10 @@
-import {  useContext } from 'react'
-import UserContext from '../context/UserContext'
+import { useUser } from '../context/UserContext'
 import Head from 'next/head'
 import Signup from '../components/Signup'
 import Wallet from '../components/Wallet'
 
 const Home = (): JSX.Element => {
-  const { user } = useContext(UserContext);
+  const user = useUser()
 
   return (
   <div className="container">
