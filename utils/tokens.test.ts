@@ -1,9 +1,9 @@
-import {fetchTokens} from './tokens'
+import { fetchTokens } from './tokens'
 
 //See Token List schema: https://uniswap.org/tokenlist.schema.json
 describe('fetchTokens', () => {
   it('Fetches proper schema', async () => {
-    const tokens = await fetchTokens();
+    const tokens = await fetchTokens()
 
     expect(tokens.length).toBeGreaterThan(0)
 
@@ -12,7 +12,7 @@ describe('fetchTokens', () => {
       expect(token).toHaveProperty('symbol')
       expect(token).toHaveProperty('decimals')
       expect(token).toHaveProperty('logoURI')
+      expect(token).toHaveProperty('address')
     })
   })
-
 })
