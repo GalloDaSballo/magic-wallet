@@ -6,6 +6,13 @@ import { ethers } from 'ethers';
 
 let m; //Magic requires window to function
 
+//TODO: Use Interface
+interface User {
+  email: string;
+  address: string;
+  provider: ethers.providers.Web3Provider;
+}
+
 const UserContext = createContext({
   user: null,
   login: (_email) => null,
