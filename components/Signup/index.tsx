@@ -1,10 +1,10 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import { useLogin } from '../../context/UserContext'
 
 const Signup = (): JSX.Element => {
   const [email, setEmail] = useState('')
 
-  const login  = useLogin()
+  const login = useLogin()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -13,9 +13,12 @@ const Signup = (): JSX.Element => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
     </form>
-    
   )
 }
 
