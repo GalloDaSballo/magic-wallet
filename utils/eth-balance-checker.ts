@@ -1,10 +1,13 @@
-import { ethers } from 'ethers'
+import { ethers, providers } from 'ethers'
+import { Token, TokenWithBalance } from '../interfaces/tokens'
 import BalanceCheckerABI from 'eth-balance-checker/abis/BalanceChecker.abi.json'
 //This code uses the Smart Contract from: https://github.com/wbobeirne/eth-balance-checker
 const MAINNET_BALANCE_CHECKER_ADDRESS =
   '0xb1f8e55c7f64d203c1400b9d8555d050f94adf39'
 
-export const getEthersBalances = async (provider, addresses, tokens) => {
+
+
+export const getEthersBalances = async (provider: providers.JsonRpcProvider, addresses: string, tokens: Token[]): Promise<TokenWithBalance[]> => {
   const parseableTokens = tokens.map((token) => token.address)
   //Generate Contract
   const contract = new ethers.Contract(
