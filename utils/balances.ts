@@ -18,7 +18,7 @@ export const getTokensBalances = async (provider) => {
 
   const tokensWithBalances = await getEthersBalances(
     provider,
-    address,
+    [address],
     tokens
   )
 

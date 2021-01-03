@@ -5,9 +5,11 @@ import BalanceCheckerABI from 'eth-balance-checker/abis/BalanceChecker.abi.json'
 const MAINNET_BALANCE_CHECKER_ADDRESS =
   '0xb1f8e55c7f64d203c1400b9d8555d050f94adf39'
 
-
-
-export const getEthersBalances = async (provider: providers.JsonRpcProvider, addresses: string, tokens: Token[]): Promise<TokenWithBalance[]> => {
+export const getEthersBalances = async (
+  provider: providers.JsonRpcProvider,
+  addresses: string[],
+  tokens: Token[]
+): Promise<TokenWithBalance[]> => {
   const parseableTokens = tokens.map((token) => token.address)
   //Generate Contract
   const contract = new ethers.Contract(

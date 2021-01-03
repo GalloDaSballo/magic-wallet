@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useUser } from '../context/UserContext'
+import { TokenWithBalance } from '../interfaces/tokens'
 import { getTokensBalances } from '../utils/balances'
 
-const useERC20Balances = () => {
+const useERC20Balances = (): [TokenWithBalance[], () => Promise<void>] => {
   const user = useUser()
   const [balances, setBalance] = useState([])
 
