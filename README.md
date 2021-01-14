@@ -1,27 +1,49 @@
-# NextJS Typescript Boilerplate
+# Magic Wallet
 
-Bootstrap a developer-friendly NextJS app configured with:
+Open source Ethereum wallet, using Magic.Link for authentication
 
-- [Typescript](https://www.typescriptlang.org/)
-- Linting with [ESLint](https://eslint.org/)
-- Formatting with [Prettier](https://prettier.io/)
-- Linting, typechecking and formatting on by default using [`husky`](https://github.com/typicode/husky) for commit hooks
-- Testing with [Jest](https://jestjs.io/) and [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro)
+Tech:
+Typescript
+NextJS
 
-## Deploy your own
 
-Deploy the example using [Vercel](https://vercel.com):
+## Quickstart
+Clone this
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/vercel/next.js/tree/canary/examples/with-typescript-eslint-jest)
+Instal dependencies
+```yarn```
 
-## How to use
+Set up .env file with
+```NEXT_PUBLIC_MAGIC_KEY #Magic key```
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+Run
+```yarn dev```
 
-```bash
-npx create-next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-# or
-yarn create next-app --example with-typescript-eslint-jest with-typescript-eslint-jest-app
-```
+## Deploy to Vercel
+Just associate the repo to vercel and add your ```NEXT_PUBLIC_MAGIC_KEY```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+
+### Thank you:
+Magic Inc. for sponsoring the development
+
+https://www.npmjs.com/~wbobeirne for
+https://www.npmjs.com/package/eth-balance-checker
+Which allows to load ERC-20 Balance in instants
+
+const MAINNET_BALANCE_CHECKER_ADDRESS =
+    "0xb1f8e55c7f64d203c1400b9d8555d050f94adf39";
+
+
+### Linter and Prettier setup from
+Polymarket
+
+### Boilerplate name
+NextJS Typescript Boilerplate
+
+### License
+You can do anything you want with this.
+I hope you use it to help others!
+
+
+
+

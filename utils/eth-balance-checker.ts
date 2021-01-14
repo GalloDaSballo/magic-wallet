@@ -1,5 +1,5 @@
 import { ethers, providers } from "ethers";
-import BalanceCheckerABI from "eth-balance-checker/abis/BalanceChecker.abi.json";
+import BalanceCheckerABI from "../abi/eth-balance-checker.abi.json";
 import { Token, TokenWithBalance } from "../interfaces/tokens";
 // This code uses the Smart Contract from: https://github.com/wbobeirne/eth-balance-checker
 const MAINNET_BALANCE_CHECKER_ADDRESS =
