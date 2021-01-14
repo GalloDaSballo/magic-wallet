@@ -37,7 +37,9 @@ export const UserContextProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState(null);
 
     const getAddressAndProvider = async () => {
-        const provider = new ethers.providers.Web3Provider(m.rpcProvider as any);
+        const provider = new ethers.providers.Web3Provider(
+            m.rpcProvider as any,
+        );
         const signer = provider.getSigner();
         const address = await signer.getAddress();
         return { address, provider };
@@ -109,7 +111,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
             {children}
         </UserContext.Provider>
     );
-}
+};
 
 export const useLogin = () => {
     const { login } = useContext(UserContext);

@@ -1,5 +1,5 @@
-import { UserContextProvider } from "../context/UserContext";
 import { AppProps } from "next/dist/next-server/lib/router/router";
+import { UserContextProvider } from "../context/UserContext";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
     return (
@@ -7,6 +7,6 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
             <Component {...pageProps} />
         </UserContextProvider>
     );
-}
+};
 
 export default MyApp;

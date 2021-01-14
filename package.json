@@ -15,15 +15,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
       "pre-push": "yarn run type-check"
     }
-  },
-  "lint-staged": {
-    "*.@(ts|tsx)": [
-      "yarn lint",
-      "yarn format"
-    ]
   },
   "dependencies": {
     "ethereum-qr-code": "^0.3.0",
@@ -47,7 +40,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^25.2.3",
     "jest-watch-typeahead": "^0.5.0",
-    "lint-staged": "^10.0.10",
     "prettier": "^2.0.2",
     "typescript": "^3.8.3"
   }
