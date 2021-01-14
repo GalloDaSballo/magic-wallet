@@ -1,4 +1,4 @@
-import { Token, TokenList } from '../interfaces/tokens'
+import { Token, TokenList } from "../interfaces/tokens";
 
 /**
  * Fetch Tokens
@@ -8,9 +8,9 @@ import { Token, TokenList } from '../interfaces/tokens'
  * https://tokenlists.org/
  */
 export const fetchTokens = async (): Promise<Token[]> => {
-  const res = await fetch(
-    'https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link'
-  )
-  const data: TokenList = await res.json()
-  return data?.tokens
-}
+    const res = await fetch(
+        "https://wispy-bird-88a7.uniswap.workers.dev/?url=http://tokens.1inch.eth.link",
+    );
+    const data: TokenList = await res.json();
+    return data?.tokens;
+};

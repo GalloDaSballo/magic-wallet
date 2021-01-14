@@ -1,115 +1,130 @@
-import { Magic } from 'magic-sdk'
-import { createContext, useState, useEffect, useContext } from 'react'
-import { ethers } from 'ethers'
+import { Magic } from "magic-sdk";
+import { createContext, useState, useEffect, useContext } from "react";
+import { ethers, BigNumber } from "ethers";
 
-let m //Magic requires window to function
+let m: Magic; // Magic requires window to function
 
-//TODO: Use Interface
+export type UserData = {
+    baseAddress: string;
+    proxyWalletAddress: string;
+    usdc: BigNumber;
+    avatar: string;
+    username: string;
+    loggedIn: boolean;
+};
+
+// TODO: Use Interface
 interface User {
-  email: string
-  address: string
-  provider: ethers.providers.Web3Provider
+    email: string;
+    address: string;
+    provider: ethers.providers.Web3Provider;
 }
 
-const UserContext = createContext({
-  user: null,
-  login: (_email) => null,
-  logout: () => null,
-})
-export default UserContext
+type UserContextData = {
+    user: User;
+    logout: () => void;
+    login: (_email: string) => void;
+};
 
-export function UserContextProvider({ children }) {
-  const [user, setUser] = useState(null)
+const UserContext = createContext<UserContextData>({
+    user: null,
+    login: (_email) => null,
+    logout: () => null,
+});
+export default UserContext;
 
-  const getAddressAndProvider = async () => {
-    const provider = new ethers.providers.Web3Provider(m.rpcProvider)
-    const signer = provider.getSigner()
-    const address = await signer.getAddress()
-    return { address, provider }
-  }
+export const UserContextProvider: React.FC = ({ children }) => {
+    const [user, setUser] = useState(null);
 
-  const login = async (email) => {
-    try {
-      await m.auth.loginWithMagicLink({ email })
-      const { address, provider } = await getAddressAndProvider()
-      setUser({
-        email,
-        address,
-        provider,
-      })
-    } catch (err) {
-      logout()
-    }
-  }
+    const getAddressAndProvider = async () => {
+        const provider = new ethers.providers.Web3Provider(m.rpcProvider as any);
+        const signer = provider.getSigner();
+        const address = await signer.getAddress();
+        return { address, provider };
+    };
 
-  /**
-   * Logs the user out of magic
-   */
-  const logout = async () => {
-    try {
-      await m.user.logout()
-      setUser(null)
-    } catch (err) {
-      //Do nothing
-      setUser(user)
-    }
-  }
+    /**
+     * Logs the user out of magic
+     */
+    const logout = async () => {
+        try {
+            await m.user.logout();
+            setUser(null);
+        } catch (err) {
+            // Do nothing
+            setUser(user);
+        }
+    };
 
-  /**
-   * Checks if the user is already logged in, if they are, log them in automatically
-   * Used in browser refreshes
-   */
-  const persistUser = async () => {
-    try {
-      const isLoggedIn = await m.user.isLoggedIn()
+    const login = async (email: string) => {
+        try {
+            await m.auth.loginWithMagicLink({ email });
+            const { address, provider } = await getAddressAndProvider();
+            setUser({
+                email,
+                address,
+                provider,
+            });
+        } catch (err) {
+            logout();
+        }
+    };
 
-      if (isLoggedIn) {
-        const { email } = await m.user.getMetadata()
-        const { address, provider } = await getAddressAndProvider()
-        setUser({
-          email,
-          address,
-          provider,
-        })
-      }
-    } catch (err) {
-      logout()
-    }
-  }
+    /**
+     * Checks if the user is already logged in, if they are, log them in automatically
+     * Used in browser refreshes
+     */
+    const persistUser = async () => {
+        try {
+            const isLoggedIn = await m.user.isLoggedIn();
 
-  useEffect(() => {
-    m = new Magic(process.env.NEXT_PUBLIC_MAGIC_KEY)
+            if (isLoggedIn) {
+                const { email } = await m.user.getMetadata();
+                const { address, provider } = await getAddressAndProvider();
+                setUser({
+                    email,
+                    address,
+                    provider,
+                });
+            }
+        } catch (err) {
+            logout();
+        }
+    };
 
-    persistUser()
-  }, [])
+    useEffect(() => {
+        m = new Magic(process.env.NEXT_PUBLIC_MAGIC_KEY || "");
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  )
+        persistUser();
+    }, []);
+
+    return (
+        <UserContext.Provider
+            value={{
+                user,
+                login,
+                logout,
+            }}
+        >
+            {children}
+        </UserContext.Provider>
+    );
 }
 
 export const useLogin = () => {
-  const { login } = useContext(UserContext)
+    const { login } = useContext(UserContext);
 
-  return login
-}
+    return login;
+};
 
 export const useLogout = () => {
-  const { logout } = useContext(UserContext)
+    const { logout } = useContext(UserContext);
 
-  return logout
-}
+    return logout;
+};
 
 export const useUser = () => {
-  const { user } = useContext(UserContext)
+    const { user } = useContext(UserContext);
 
-  return user
-}
+    return user;
+};
