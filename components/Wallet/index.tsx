@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useETHBalance from "../../hooks/useETHBalance";
 import useERC20Balances from "../../hooks/useERC20Balances";
-import { useUser, useLogout } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 import { formatETH } from "../../utils/format";
 
 import Send from "../Send";
@@ -14,7 +14,7 @@ const Wallet = (): JSX.Element | null => {
     const [send, setSend] = useState(false);
     const [receive, setReceive] = useState(false);
     const user = useUser();
-    const logout = useLogout();
+    // const logout = useLogout();
 
     const [ethBalance, reloadEth] = useETHBalance();
     const [balances, fetchUserErc20] = useERC20Balances();

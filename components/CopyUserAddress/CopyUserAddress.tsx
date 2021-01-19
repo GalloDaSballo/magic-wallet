@@ -25,10 +25,7 @@ const CopyUserAddress = ({
                     : styles.copyUserAddress__gray
             }`}
         >
-            <button
-                title="Copy Address"
-                onClick={() => copyUserAddress(address)}
-            >
+            <button title="Copy Address" onClick={copyUserAddress}>
                 <img
                     src={`/images/copy-${
                         color === "blue" ? "blue" : "gray"
@@ -36,7 +33,7 @@ const CopyUserAddress = ({
                     alt="Copy"
                 />
             </button>
-            <p>{shortenUserAddress(address)}</p>
+            <p>{shortenUserAddress()}</p>
         </div>
     );
 };
