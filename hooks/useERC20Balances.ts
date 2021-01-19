@@ -8,6 +8,10 @@ const useERC20Balances = (): [TokenWithBalance[], () => Promise<void>] => {
     const [balances, setBalance] = useState<TokenWithBalance[]>([]);
 
     const fetchUserErc20 = async () => {
+        if (!user) {
+            setBalance([]);
+            return;
+        }
         try {
             const tokensBalance = await getTokensBalances(user.provider);
             setBalance(tokensBalance);
