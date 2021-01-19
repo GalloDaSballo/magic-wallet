@@ -1,0 +1,98 @@
+@import '../../styles/partials/_button.scss';
+
+.wallet {
+  background: #000;
+  color: #ffffff;
+  padding: 108px 0 0 0;
+
+  &__balance {
+    text-align: center;
+    color: #ffffff;
+
+    .wallet__totalBalance {
+       font-weight: 800;
+       font-size: 45px;
+       margin-bottom: 45px;
+       line-height: 1;
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.52;
+      margin-bottom: 16px;
+      display: block;
+    }
+  }
+
+  .main {
+    padding: 0 33px;
+    background-color: #ffffff;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -7px 21 rgb(0, 0, 0, 0.16);
+
+    &__reloadBtn {
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      text-align: center;
+      width: 100%;
+      font-size: 21px;
+      font-weight: 800;
+      padding: 27px 0 24px 0;
+      border-bottom: solid 1px #CCD9EC;
+    }
+
+   .quantity__item {
+      padding: 13px 0;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      border-bottom: solid 1px #CCD9EC;
+
+      div {
+        margin-left: 22px;
+
+        & > * {
+          display: block;
+        }
+
+        span {
+          color: #000000;
+          font-size: 15px;
+          line-height: 1.1;
+        }
+        small {
+          color: #9CA7B8;
+          font-size: 13px;
+          font-weight: 300;
+          line-height: 1.4;
+        }
+      }
+    }
+  }
+
+  &__buttons {
+    background: #ffffff;
+    padding: 30px 33px;
+    display: flex;
+    justify-content: space-between;
+
+    & > button {
+      @include buttonBase();
+
+      &:first-child {
+        background-color: #6851FF;
+        box-shadow: 0 6px 24px rgb(104, 81, 255, 0.41);
+      }
+
+      &:last-child {
+        background-color: #000000;
+        box-shadow: 0 6px 24px rgb(0, 0, 0, 0.28);
+      }
+    }
+
+
+  }
+
+}

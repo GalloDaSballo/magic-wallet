@@ -1,0 +1,11 @@
+@mixin buttonBase() {
+  width: 48%;
+  padding: 18px 0;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 500;
+}
