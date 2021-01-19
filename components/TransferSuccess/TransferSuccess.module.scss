@@ -1,0 +1,37 @@
+.transferSuccessful {
+  background: #000000;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px 32px;
+
+  text-align: center;
+
+  img {
+    margin-bottom: 17px;
+  }
+
+  h1 {
+    color: #ffffff;
+    font-weight: 300;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 17px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    background-color: #6851FF;
+    color: #ffffff;
+    font-weight: 300;
+    border-radius: 7px;
+    box-shadow: 0 6px 24px rgba(104,  81, 255, 0.52);
+    margin-top: 200px;
+    
+    cursor: pointer;
+  }
+
+}
