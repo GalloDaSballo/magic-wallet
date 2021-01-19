@@ -7,7 +7,7 @@ import { formatETH } from "../../utils/format";
 import Send from "../Send";
 import Receive from "../Receive";
 
-const Wallet = (): JSX.Element => {
+const Wallet = (): JSX.Element | null => {
     const [send, setSend] = useState(false);
     const [receive, setReceive] = useState(false);
     const user = useUser();
@@ -20,6 +20,10 @@ const Wallet = (): JSX.Element => {
         reloadEth();
         fetchUserErc20();
     };
+
+    if (!user) {
+        return null;
+    }
     return (
         <div>
             <p>

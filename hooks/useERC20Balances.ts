@@ -22,7 +22,7 @@ const useERC20Balances = (): [TokenWithBalance[], () => Promise<void>] => {
 
     useEffect(() => {
         fetchUserErc20();
-    }, [user.provider]);
+    }, [user?.provider]);
 
     return [balances, fetchUserErc20];
 };
