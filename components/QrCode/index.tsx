@@ -5,7 +5,7 @@ import styles from "./QRCode.module.scss";
 // Thank you @NikVogri
 // https://github.com/GalloDaSballo/atossa-frontend/blob/main/components/QRCode.tsx
 
-const QRCode: React.FC<{address: string;}> = ({address}) => {
+const QRCode: React.FC<{ address: string }> = ({ address }) => {
     useEffect(() => {
         const qr = new EthereumQRPlugin();
 

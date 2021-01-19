@@ -1,0 +1,51 @@
+@import '../../styles/partials/header.scss';
+
+.receive {
+  &__header {
+    @include header();
+  }
+
+  &__body {
+    padding:  57px 32px 39px 32px;
+    text-align: center;
+
+    span {
+      font-size: 14px;
+      color: #9CA7B8;
+      font-weight: 300;
+      margin-bottom: 13px;
+      display: block;
+    }
+  }
+
+  &__notif {
+    display: flex;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 20px 15px;
+    border-radius: 7px;
+
+    p {
+      font-size: 15px;
+      text-align: left;
+      margin-left: 16px;
+      font-weight: 300;
+    }
+
+    margin-bottom: 87px;
+  }
+
+  &__backBtn {
+    width: 100%;
+    text-align: center;
+    background-color: #9CA7B8;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    border: none;
+    font-size: 17px;
+    padding: 16px 0;
+    border-radius: 7px;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+}
