@@ -21,7 +21,7 @@ interface User {
 }
 
 type UserContextData = {
-    user: User;
+    user: User | null;
     logout: () => void;
     login: (_email: string) => void;
 };
@@ -34,7 +34,7 @@ const UserContext = createContext<UserContextData>({
 export default UserContext;
 
 export const UserContextProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
 
     const getAddressAndProvider = async () => {
         const provider = new ethers.providers.Web3Provider(
@@ -84,7 +84,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
                 const { email } = await m.user.getMetadata();
                 const { address, provider } = await getAddressAndProvider();
                 setUser({
-                    email,
+                    email: String(email),
                     address,
                     provider,
                 });
