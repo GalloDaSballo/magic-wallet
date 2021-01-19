@@ -1,0 +1,30 @@
+@mixin inputs() {
+  .formControl {
+    position: relative;
+    margin-bottom: 25px;
+
+    input {
+      border: solid 1px #9CA7B8;
+      background-color: #ffffff;
+      position: relative;
+      border-radius: 7px;
+      padding: 15px 15px;
+      font-size: 17px;
+      font-weight: 500;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    label {
+      position: absolute;
+      z-index: 99;
+      top: -10px;
+      left: 16px;
+      font-size: 14px;
+      font-weight: 300;
+      color: #9CA7B8;
+      background-color: #ffffff;
+      padding: 0 10px;
+    }
+  }
+}

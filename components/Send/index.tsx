@@ -6,6 +6,8 @@ import { TokenWithBalance } from "../../interfaces/tokens";
 import { fromStringToBN } from "../../utils/inputs";
 import { formatETH, formatERC20 } from "../../utils/format";
 
+import styles from "./Send.module.scss";
+
 const getMinimumStep = (decimals: number): string => String(1 / 10 ** decimals);
 
 const getMaximumAmount = (
@@ -14,13 +16,19 @@ const getMaximumAmount = (
 ): string =>
     token ? formatERC20(token.balance, token.decimals) : formatETH(ethBalance);
 
-const Send = (): JSX.Element => {
+type SendProps = {
+    goBackToWallet: () => void;
+};
+
+const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
     const [ethBalance] = useETHBalance();
     const [tokenBalances] = useERC20Balances();
 
     const [token, setToken] = useState<TokenWithBalance | null>(null); // null is ETH, simpler than using a hack
     const [address, setAddress] = useState("");
     const [amount, setAmount] = useState(BigNumber.from("0"));
+
+    const [gas, setGas] = useState("");
 
     const useSendableBalances = useMemo(
         () => tokenBalances.filter((token) => token.balance.gt(0)),
@@ -36,20 +44,68 @@ const Send = (): JSX.Element => {
     };
 
     const handleAmountChange = (e: FormEvent<HTMLInputElement>) => {
-        setAmount(fromStringToBN(e.currentTarget.value, decimals) || BigNumber.from(0));
+        setAmount(
+            fromStringToBN(e.currentTarget.value, decimals) ||
+                BigNumber.from(0),
+        );
     };
 
     return (
-        <div>
-            <h2>Send</h2>
-            <form onSubmit={handleSubmit}>
-                <h3>What do you want to send?</h3>
-                <p>Sending {token ? token.symbol : "ETH"}</p>
+        <section className={styles.send}>
+            <div className={styles.sendHeader}>
+                <div className={styles.sendHeader__title}>
+                    <h1>Send to</h1>
+                </div>
+                <div className={styles.sendHeader__image}>
+                    <img src="images/send-header.svg" alt="Send to" />
+                </div>
+            </div>
 
-                {/* SET TOKEN */}
-                <button type="button" onClick={() => setToken(null)}>
-                    ETH
-                </button>
+            <form onSubmit={handleSubmit} className={styles.send__form}>
+                <div className={styles.formControl}>
+                    <label htmlFor="sendTo">Send To</label>
+                    <input
+                        name="sendTo"
+                        id="sendTo"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                </div>
+
+                <div className={styles.formControl}>
+                    <p>Sending {token ? token.symbol : "ETH"}</p>
+
+                    {/* SET TOKEN */}
+                    <button type="button" onClick={() => setToken(null)}>
+                        ETH
+                    </button>
+                </div>
+
+                <div className={styles.formControl}>
+                    {/* SET AMOUNT */}
+                    <label htmlFor="amount">Amount</label>
+                    <input
+                        type="number"
+                        id="amount"
+                        name="amount"
+                        step={getMinimumStep(decimals)}
+                        value={formatERC20(amount, decimals)}
+                        onChange={handleAmountChange}
+                        min="0"
+                        max={getMaximumAmount(token, ethBalance)}
+                    />
+                </div>
+
+                <div className={styles.formControl}>
+                    <label htmlFor="gas">Gas (Transaction Fee)</label>
+                    <input
+                        name="gas"
+                        id="gas"
+                        value={gas}
+                        onChange={(e) => setGas(e.target.value)}
+                    />
+                </div>
+
                 {useSendableBalances.map(
                     (token: TokenWithBalance): JSX.Element => (
                         <button
@@ -63,29 +119,19 @@ const Send = (): JSX.Element => {
                     ),
                 )}
 
-                {/* SET AMOUNT */}
-                <h3>Amount</h3>
-                <input
-                    type="number"
-                    step={getMinimumStep(decimals)}
-                    value={formatERC20(amount, decimals)}
-                    onChange={handleAmountChange}
-                    min="0"
-                    max={getMaximumAmount(token, ethBalance)}
-                />
+                <div className={styles.btnContainer}>
+                    {/* CANCEL */}
+                    <button type="button" onClick={goBackToWallet}>
+                        Cancel
+                    </button>
 
-                <h3>To</h3>
-                <input
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                />
-
-                {/* CONFIRM */}
-                <button disabled={amount.lte(0)} type="submit">
-                    Send
-                </button>
+                    {/* CONFIRM */}
+                    <button disabled={amount.lte(0)} type="submit">
+                        Send
+                    </button>
+                </div>
             </form>
-        </div>
+        </section>
     );
 };
 

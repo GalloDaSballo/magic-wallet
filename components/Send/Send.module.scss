@@ -1,0 +1,47 @@
+@import '../../styles/partials/_button.scss';
+@import '../../styles/partials/_inputs.scss';
+@import '../../styles/partials/_header.scss';
+
+.send {
+  .sendHeader {
+    
+    &__title {
+      @include header();
+    }
+
+    &__image {
+      padding: 32px 57px;
+      margin: 0 auto;
+    }
+
+  }
+
+  &__form {
+    padding: 0 32px;
+    @include inputs();
+
+    .btnContainer {
+      padding: 32px 0 39px 0;
+      display: flex;
+      justify-content: space-between;
+        &>button {
+          @include buttonBase();
+
+          &:first-child {
+            background-color: #9CA7B8;
+            box-shadow: 0 6px 24px rgb(0, 0, 0, 0.3);
+          }
+
+          &:last-child {
+            background-color: #6851FF;
+            box-shadow: 0 6px 24px rgb(104, 81, 255, 0.41);
+
+            &:disabled {
+              background-color: rgba(104, 81, 255, 0.52);
+            }
+          }
+        }
+      
+    }
+  }
+}
