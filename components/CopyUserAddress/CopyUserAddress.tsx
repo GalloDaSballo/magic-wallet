@@ -1,7 +1,7 @@
 import styles from "./CopyUserAddress.module.scss";
 
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type CopyUserAddressProps = {
     address: string;
@@ -18,16 +18,18 @@ const CopyUserAddress = ({
         return `${address.slice(0, 6)}...${address.slice(-4)}`;
     };
 
-    const handleCopyClick = () => {
-        setCopied(true);
-
-        setTimeout(() => {
-            setCopied(false);
-        }, 1500);
-    };
+    useEffect(() => {
+        let timeout = setTimeout(() => null, 5000);
+        if (copied) {
+            timeout = setTimeout(() => {
+                setCopied(false);
+            }, 5000);
+        }
+        return () => clearTimeout(timeout);
+    }, [copied]);
 
     return (
-        <CopyToClipboard text={address} onCopy={handleCopyClick}>
+        <CopyToClipboard text={address} onCopy={() => setCopied(true)}>
             <div
                 className={`${styles.copyUserAddress} ${
                     color === "blue"
