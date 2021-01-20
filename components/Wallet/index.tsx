@@ -60,29 +60,26 @@ const Wallet = (): JSX.Element | null => {
                     {balances.map((token) => (
                         <div key={token.symbol}>
                             {token.balance.gt(0) && (
-                                <p>
+                                <div className={styles.quantity__item}>
                                     <img
                                         alt={`${token.name} Logo`}
                                         src={token.logoURI}
-                                    />{" "}
-                                    {token.symbol}{" "}
-                                    {formatERC20(token.balance, token.decimals)}
-                                </p>
+                                    />
+                                    <div>
+                                        <span>
+                                            {formatERC20(
+                                                token.balance,
+                                                token.decimals,
+                                            )}{" "}
+                                            {token.symbol}
+                                        </span>
+                                        {/* <small>$150 USD</small> */}
+                                    </div>
+                                </div>
                             )}
                         </div>
                     ))}
-
-                    {/* 
-                        TODO
-                    <div className={styles.quantity__item}>
-                        <img src="/images/etherium-small.svg" alt="Etherium" />
-                        <div>
-                            <span>150 DAI</span> <small>$150 USD</small>
-                        </div>
-                    </div> */}
                 </div>
-
-                {/* <button onClick={logout}>Logout</button> */}
             </div>
             <div className={styles.wallet__buttons}>
                 <button onClick={() => setSend(true)}>Send</button>

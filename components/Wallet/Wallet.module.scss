@@ -43,17 +43,28 @@
       border-bottom: solid 1px #CCD9EC;
     }
 
-   .quantity__item {
+
+  }
+  .main__quantity {
+    color: #000;
+
+    .quantity__item {
       padding: 13px 0;
       display: flex;
       align-items: center;
       font-weight: 500;
       border-bottom: solid 1px #CCD9EC;
 
+      img {
+        height: 36px;
+        width: 36px;
+        filter: grayscale(1);
+      }
+
       div {
         margin-left: 22px;
 
-        & > * {
+        &>* {
           display: block;
         }
 
@@ -62,6 +73,7 @@
           font-size: 15px;
           line-height: 1.1;
         }
+
         small {
           color: #9CA7B8;
           font-size: 13px;
@@ -70,9 +82,6 @@
         }
       }
     }
-  }
-  .main__quantity {
-    color: #000;
   }
 
   &__buttons {
