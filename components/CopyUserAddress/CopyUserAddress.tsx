@@ -1,7 +1,7 @@
-import styles from "./CopyUserAddress.module.scss";
-
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useEffect, useState } from "react";
+
+import styles from "./CopyUserAddress.module.scss";
 
 type CopyUserAddressProps = {
     address: string;

@@ -19,15 +19,18 @@
     }
   },
   "dependencies": {
+    "add": "^2.0.6",
     "ethereum-qr-code": "^0.3.0",
     "ethers": "^5.0.24",
     "isomorphic-unfetch": "^3.1.0",
     "magic-sdk": "^4.0.2",
     "next": "^10.0.5",
     "react": "^16.13.1",
+    "react-click-away-listener": "^1.5.0",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^16.13.1",
-    "sass": "^1.32.4"
+    "sass": "^1.32.4",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "@magic-sdk/types": "^3.0.1",

@@ -1,6 +1,8 @@
 @import '../../styles/partials/header.scss';
 
 .receive {
+  min-height: 100vh;
+  
   &__header {
     @include header();
   }
