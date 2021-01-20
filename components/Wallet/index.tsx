@@ -66,10 +66,7 @@ const Wallet = (): JSX.Element | null => {
                                         src={token.logoURI}
                                     />{" "}
                                     {token.symbol}{" "}
-                                    {formatERC20(
-                                        token.balance.toString(),
-                                        token.decimals,
-                                    )}
+                                    {formatERC20(token.balance, token.decimals)}
                                 </p>
                             )}
                         </div>
