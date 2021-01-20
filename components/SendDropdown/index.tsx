@@ -58,7 +58,6 @@ const SendDropdown = ({
             <div
                 className={styles.sendDropdown}
                 onClick={() => setShowDropdown(!showDropdown)}
-                role="button"
             >
                 <img
                     src="images/polygon-down.svg"
@@ -96,7 +95,7 @@ const SendDropdown = ({
                     showDropdown ? styles.show : ""
                 }`}
             >
-                {sendebleBalances.map((balanceToken: TokenWithBalance) => (
+                {sendebleBalances.map((balanceToken: any) => (
                     <li key={balanceToken.symbol}>
                         <TokenItem
                             token={balanceToken}
