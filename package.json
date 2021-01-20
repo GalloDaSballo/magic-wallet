@@ -25,6 +25,7 @@
     "magic-sdk": "^4.0.2",
     "next": "^10.0.5",
     "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^16.13.1",
     "sass": "^1.32.4"
   },
