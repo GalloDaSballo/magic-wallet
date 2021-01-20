@@ -2,7 +2,7 @@ import { useState } from "react";
 import useETHBalance from "../../hooks/useETHBalance";
 import useERC20Balances from "../../hooks/useERC20Balances";
 import { useUser } from "../../context/UserContext";
-import { formatETH } from "../../utils/format";
+import { formatETH, formatERC20 } from "../../utils/format";
 
 import Send from "../Send";
 import Receive from "../Receive";
@@ -14,7 +14,6 @@ const Wallet = (): JSX.Element | null => {
     const [send, setSend] = useState(false);
     const [receive, setReceive] = useState(false);
     const user = useUser();
-    // const logout = useLogout();
 
     const [ethBalance, reloadEth] = useETHBalance();
     const [balances, fetchUserErc20] = useERC20Balances();
@@ -23,6 +22,11 @@ const Wallet = (): JSX.Element | null => {
         reloadEth();
         fetchUserErc20();
     };
+
+    console.log(
+        "balances",
+        balances.filter((token) => token.balance.gt(0)),
+    );
 
     if (!user) {
         return null;
@@ -57,7 +61,15 @@ const Wallet = (): JSX.Element | null => {
                         <div key={token.symbol}>
                             {token.balance.gt(0) && (
                                 <p>
-                                    {token.symbol} {token.balance.toString()}
+                                    <img
+                                        alt={`${token.name} Logo`}
+                                        src={token.logoURI}
+                                    />{" "}
+                                    {token.symbol}{" "}
+                                    {formatERC20(
+                                        token.balance.toString(),
+                                        token.decimals,
+                                    )}
                                 </p>
                             )}
                         </div>
