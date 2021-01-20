@@ -6,6 +6,8 @@ import { TokenWithBalance } from "../../interfaces/tokens";
 import { fromStringToBN } from "../../utils/inputs";
 import { formatETH, formatERC20 } from "../../utils/format";
 
+import SendDropdown from "../SendDropdown";
+
 import styles from "./Send.module.scss";
 
 const getMinimumStep = (decimals: number): string => String(1 / 10 ** decimals);
@@ -73,12 +75,21 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                 </div>
 
                 <div className={styles.formControl}>
-                    <p>Sending {token ? token.symbol : "ETH"}</p>
+                    {/* <p>Sending {token ? token.symbol : "ETH"}</p> */}
 
                     {/* SET TOKEN */}
-                    <button type="button" onClick={() => setToken(null)}>
+                    {/* <button type="button" onClick={() => setToken(null)}>
                         ETH
-                    </button>
+                    </button> */}
+
+                    <SendDropdown
+                        token={token}
+                        sendebleBalances={useSendableBalances}
+                        setToken={(tok: TokenWithBalance | null) =>
+                            setToken(tok)
+                        }
+                        ethBalance={formatETH(ethBalance)}
+                    />
                 </div>
 
                 <div className={styles.formControl}>
@@ -105,19 +116,6 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                         onChange={(e) => setGas(e.target.value)}
                     />
                 </div>
-
-                {useSendableBalances.map(
-                    (token: TokenWithBalance): JSX.Element => (
-                        <button
-                            type="button"
-                            key={token.symbol}
-                            onClick={() => setToken(token)}
-                        >
-                            {token.symbol},{" "}
-                            {formatERC20(token.balance, token.decimals)}
-                        </button>
-                    ),
-                )}
 
                 <div className={styles.btnContainer}>
                     {/* CANCEL */}
