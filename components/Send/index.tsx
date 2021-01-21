@@ -75,13 +75,7 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                 </div>
 
                 <div className={styles.formControl}>
-                    {/* <p>Sending {token ? token.symbol : "ETH"}</p> */}
-
                     {/* SET TOKEN */}
-                    {/* <button type="button" onClick={() => setToken(null)}>
-                        ETH
-                    </button> */}
-
                     <SendDropdown
                         token={token}
                         sendebleBalances={useSendableBalances}
@@ -105,6 +99,11 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                         min="0"
                         max={getMaximumAmount(token, ethBalance)}
                     />
+                    <div className={styles.formControl__extra}>
+                        <span>{token ? token.symbol : "ETH"}</span>
+                        {/* this needs to be converted somehow */}
+                        {/* <span>$1329 USD</span> */}
+                    </div>
                 </div>
 
                 <div className={styles.formControl}>
