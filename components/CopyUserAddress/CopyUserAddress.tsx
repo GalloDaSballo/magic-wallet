@@ -18,12 +18,15 @@ const CopyUserAddress = ({
         return `${address.slice(0, 6)}...${address.slice(-4)}`;
     };
 
+    /**
+     * Sets copied back to false
+     */
     useEffect(() => {
-        let timeout = setTimeout(() => null, 5000);
+        let timeout = setTimeout(() => null, 500);
         if (copied) {
             timeout = setTimeout(() => {
                 setCopied(false);
-            }, 5000);
+            }, 500);
         }
         return () => clearTimeout(timeout);
     }, [copied]);

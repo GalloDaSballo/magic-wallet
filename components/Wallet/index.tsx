@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import useETHBalance from "../../hooks/useETHBalance";
 import useERC20Balances from "../../hooks/useERC20Balances";
 import { useUser } from "../../context/UserContext";
@@ -18,15 +18,17 @@ const Wallet = (): JSX.Element | null => {
     const [ethBalance, reloadEth] = useETHBalance();
     const [balances, fetchUserErc20] = useERC20Balances();
 
-    const reloader = () => {
+    /** Reloader function  */
+    const reloader = useCallback(() => {
         reloadEth();
         fetchUserErc20();
-    };
+    }, [reloadEth, fetchUserErc20]);
 
-    console.log(
-        "balances",
-        balances.filter((token) => token.balance.gt(0)),
-    );
+    /** Reload these every 10 sec */
+    useEffect(() => {
+        const timeout = setTimeout(() => reloader(), 10000);
+        return () => clearTimeout(timeout);
+    }, [reloader]);
 
     if (!user) {
         return null;
