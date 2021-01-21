@@ -10,7 +10,8 @@ import SendDropdown from "../SendDropdown";
 
 import styles from "./Send.module.scss";
 
-const getMinimumStep = (decimals: number): string => String(1 / 10 ** decimals);
+const getMinimumStep = (decimals: number): string =>
+    String(1 / 10 ** Math.min(decimals, 6)); // 6 decimals max because UX after is abysmal
 
 const getMaximumAmount = (
     token: TokenWithBalance | null,
@@ -28,12 +29,18 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
 
     const [token, setToken] = useState<TokenWithBalance | null>(null); // null is ETH, simpler than using a hack
     const [address, setAddress] = useState("");
-    const [amount, setAmount] = useState(BigNumber.from("0"));
+    const [amount, setAmount] = useState("");
+
+    const BNAmount = useMemo(
+        () => fromStringToBN(amount, token?.decimals || 18), // Eth has 18 decimals
+        [amount, token],
+    );
 
     const [gas, setGas] = useState("");
 
     const useSendableBalances = useMemo(
-        () => tokenBalances.filter((token) => token.balance.gt(0)),
+        (): TokenWithBalance[] =>
+            tokenBalances.filter((t: TokenWithBalance) => t.balance.gt(0)),
         [tokenBalances],
     );
 
@@ -42,15 +49,14 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        console.log("token", token);
+        console.log("amount", amount.toString());
+        console.log("gas", gas);
+
         alert("TODO");
     };
 
-    const handleAmountChange = (e: FormEvent<HTMLInputElement>) => {
-        setAmount(
-            fromStringToBN(e.currentTarget.value, decimals) ||
-                BigNumber.from(0),
-        );
-    };
+    console.log("BNAmount", BNAmount);
 
     return (
         <section className={styles.send}>
@@ -94,8 +100,8 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                         id="amount"
                         name="amount"
                         step={getMinimumStep(decimals)}
-                        value={formatERC20(amount, decimals)}
-                        onChange={handleAmountChange}
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
                         min="0"
                         max={getMaximumAmount(token, ethBalance)}
                     />
@@ -123,7 +129,7 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                     </button>
 
                     {/* CONFIRM */}
-                    <button disabled={amount.lte(0)} type="submit">
+                    <button disabled={BNAmount.lte(0)} type="submit">
                         Send
                     </button>
                 </div>
