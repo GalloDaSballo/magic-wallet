@@ -1,14 +1,16 @@
 import { useState, useMemo, FormEvent } from "react";
-import { BigNumber } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import useETHBalance from "../../hooks/useETHBalance";
 import useERC20Balances from "../../hooks/useERC20Balances";
 import { TokenWithBalance } from "../../interfaces/tokens";
 import { fromStringToBN } from "../../utils/inputs";
 import { formatETH, formatERC20 } from "../../utils/format";
+import { useUser } from "../../context/UserContext";
 
 import SendDropdown from "../SendDropdown";
 
 import styles from "./Send.module.scss";
+import { sendERC20, sendEth } from "../../utils/transactions";
 
 const getMinimumStep = (decimals: number): string =>
     String(1 / 10 ** Math.min(decimals, 6)); // 6 decimals max because UX after is abysmal
@@ -26,10 +28,12 @@ type SendProps = {
 const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
     const [ethBalance] = useETHBalance();
     const [tokenBalances] = useERC20Balances();
+    const user = useUser();
 
     const [token, setToken] = useState<TokenWithBalance | null>(null); // null is ETH, simpler than using a hack
     const [address, setAddress] = useState("");
     const [amount, setAmount] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const BNAmount = useMemo(
         () => fromStringToBN(amount, token?.decimals || 18), // Eth has 18 decimals
@@ -47,13 +51,26 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
     // Decimals defaults to 18, so we can use FormatERC20 for ETH as well
     const decimals = useMemo(() => (token ? token.decimals : 18), [token]);
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        console.log("token", token);
-        console.log("amount", amount.toString());
-        console.log("gas", gas);
+        try {
+            setLoading(true);
+            let tx: ethers.providers.TransactionReceipt | null = null;
+            if (!user?.provider) {
+                return;
+            }
 
-        alert("TODO");
+            if (token) {
+                tx = await sendERC20(user.provider, address, BNAmount, token);
+            } else {
+                tx = await sendEth(user?.provider, address, BNAmount);
+            }
+
+            alert(`Success ${tx.transactionHash}`);
+        } catch (err) {
+            alert(`Error  ${err}`);
+        }
+        setLoading(false);
     };
 
     console.log("BNAmount", BNAmount);
@@ -124,15 +141,21 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
 
                 <div className={styles.btnContainer}>
                     {/* CANCEL */}
-                    <button type="button" onClick={goBackToWallet}>
+                    <button
+                        type="button"
+                        disabled={loading}
+                        onClick={goBackToWallet}
+                    >
                         Cancel
                     </button>
 
                     {/* CONFIRM */}
-                    <button disabled={BNAmount.lte(0)} type="submit">
+                    <button disabled={BNAmount.lte(0) || loading} type="submit">
                         Send
                     </button>
                 </div>
+
+                {loading && <p>Loading</p>}
             </form>
         </section>
     );

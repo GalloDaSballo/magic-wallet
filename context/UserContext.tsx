@@ -1,19 +1,9 @@
 import { Magic } from "magic-sdk";
 import { createContext, useState, useEffect, useContext } from "react";
-import { ethers, BigNumber } from "ethers";
+import { ethers } from "ethers";
 
 let m: Magic; // Magic requires window to function
 
-export type UserData = {
-    baseAddress: string;
-    proxyWalletAddress: string;
-    usdc: BigNumber;
-    avatar: string;
-    username: string;
-    loggedIn: boolean;
-};
-
-// TODO: Use Interface
 interface User {
     email: string;
     address: string;
