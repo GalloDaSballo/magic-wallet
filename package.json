@@ -1,6 +1,12 @@
 {
   "name": "with-typescript-eslint-jest",
   "author": "@erikdstock",
+  "contributors": [
+    {
+      "name": "Nik Vogrinec",
+      "github": "https://github.com/NikVogri"
+    }
+  ],
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
