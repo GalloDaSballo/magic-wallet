@@ -48,6 +48,9 @@
   }
   .main__quantity {
     color: #000;
+    max-height: 30vh;
+    overflow: auto;
+    
 
     .quantity__item {
       padding: 13px 0;
