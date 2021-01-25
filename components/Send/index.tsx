@@ -13,9 +13,18 @@ import SendDropdown from "../SendDropdown";
 import styles from "./Send.module.scss";
 import { sendERC20, sendEth } from "../../utils/transactions";
 
+/**
+ * Get the minimum step for the amount input
+ * @param decimals
+ */
 const getMinimumStep = (decimals: number): string =>
     String(1 / 10 ** Math.min(decimals, 6)); // 6 decimals max because UX after is abysmal
 
+/**
+ * Get the maximum amount for the amount input
+ * @param token
+ * @param ethBalance
+ */
 const getMaximumAmount = (
     token: TokenWithBalance | null,
     ethBalance: BigNumber,
@@ -41,15 +50,19 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
         [amount, token],
     );
 
-    const [gas, setGas] = useState<BigNumber>(BigNumber.from(50));
+    /** Gas */
+    const [gasPrice, setGasPrice] = useState<BigNumber>(BigNumber.from(50));
     useEffect(() => {
         const fetchGasPrices = async () => {
             const fastPrice = await getFastGasPrice();
-            setGas(fastPrice);
+            setGasPrice(fastPrice);
         };
         fetchGasPrices();
     }, []);
 
+    /**
+     * Filter out the tokens that have no balance
+     */
     const useSendableBalances = useMemo(
         (): TokenWithBalance[] =>
             tokenBalances.filter((t: TokenWithBalance) => t.balance.gt(0)),
@@ -69,13 +82,20 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
             }
 
             if (token) {
-                tx = await sendERC20(user.provider, address, BNAmount, token);
+                tx = await sendERC20(
+                    user.provider,
+                    address,
+                    BNAmount,
+                    token,
+                    gasPrice,
+                );
             } else {
                 tx = await sendEth(
                     user?.provider,
                     address,
                     BNAmount,
                     ethBalance,
+                    gasPrice,
                 );
             }
 
@@ -140,16 +160,16 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
 
                 {/* If you want to add Gas Controls */}
                 <div className={styles.formControl}>
-                    <label htmlFor="gas">Gas (Transaction Fee) in gwei</label>
+                    <label htmlFor="gasPrice">Gas (Transaction Fee) in gwei</label>
                     <input
                         type="number"
-                        name="gas"
-                        id="gas"
-                        value={formatGas(gas)}
+                        name="gasPrice"
+                        id="gasPrice"
+                        value={formatGas(gasPrice)}
                         onChange={(e) =>
-                            setGas(utils.parseUnits(e.target.value, "gwei"))
+                            setGasPrice(utils.parseUnits(e.target.value, "gwei"))
                         }
-                        step={1}
+                        step="1"
                     />
                 </div>
 

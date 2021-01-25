@@ -42,6 +42,7 @@ export const sendEth = async (
     address: string,
     amount: BigNumber,
     maxEth: BigNumber,
+    gasPrice: BigNumber,
 ): Promise<ethers.providers.TransactionReceipt> => {
     // Check signer address for safety
     const signer = provider.getSigner();
@@ -50,7 +51,8 @@ export const sendEth = async (
     // Submit transaction to the blockchain
     const tx = await signer.sendTransaction({
         to: address,
-        value: amount,
+        value: amount, // Todo account for gasprice + amount > maxEth
+        gasPrice,
     });
 
     // Wait for send success
@@ -71,6 +73,7 @@ export const sendERC20 = async (
     address: string,
     amount: BigNumber,
     token: TokenWithBalance,
+    gasPrice: BigNumber,
 ): Promise<ethers.providers.TransactionReceipt> => {
     // Check signer address for safety
     const signer = provider.getSigner();
@@ -79,8 +82,11 @@ export const sendERC20 = async (
     // Generate Contract with signer
     const contract = new Contract(token.address, IERC20ABI, signer);
 
+    // Only send up to token.balance
+    const maxAmount = amount.lte(token.balance) ? amount : token.balance;
+
     // Submit transaction to the blockchain
-    const tx = await contract.transfer(address, amount);
+    const tx = await contract.transfer(address, maxAmount, { gasPrice });
 
     // Wait for send success
     const receipt = await tx.wait();
