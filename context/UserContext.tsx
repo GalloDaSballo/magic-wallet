@@ -1,5 +1,11 @@
 import { Magic } from "magic-sdk";
-import { createContext, useState, useEffect, useContext } from "react";
+import {
+    createContext,
+    useState,
+    useEffect,
+    useContext,
+    useCallback,
+} from "react";
 import { ethers } from "ethers";
 
 let m: Magic; // Magic requires window to function
@@ -26,6 +32,9 @@ export default UserContext;
 export const UserContextProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
 
+    /**
+     * Given the Magic Provider, return address and provider
+     */
     const getAddressAndProvider = async () => {
         const provider = new ethers.providers.Web3Provider(
             m.rpcProvider as any,
@@ -38,7 +47,7 @@ export const UserContextProvider: React.FC = ({ children }) => {
     /**
      * Logs the user out of magic
      */
-    const logout = async () => {
+    const logout = useCallback(async () => {
         try {
             await m.user.logout();
             setUser(null);
@@ -46,8 +55,12 @@ export const UserContextProvider: React.FC = ({ children }) => {
             // Do nothing
             setUser(user);
         }
-    };
+    }, [user]);
 
+    /**
+     * Login with magic, enrich context with address and provider for convenience
+     * @param email
+     */
     const login = async (email: string) => {
         try {
             await m.auth.loginWithMagicLink({ email });
@@ -62,33 +75,32 @@ export const UserContextProvider: React.FC = ({ children }) => {
         }
     };
 
-    /**
-     * Checks if the user is already logged in, if they are, log them in automatically
-     * Used in browser refreshes
-     */
-    const persistUser = async () => {
-        try {
-            const isLoggedIn = await m.user.isLoggedIn();
-
-            if (isLoggedIn) {
-                const { email } = await m.user.getMetadata();
-                const { address, provider } = await getAddressAndProvider();
-                setUser({
-                    email: String(email),
-                    address,
-                    provider,
-                });
-            }
-        } catch (err) {
-            logout();
-        }
-    };
-
     useEffect(() => {
         m = new Magic(process.env.NEXT_PUBLIC_MAGIC_KEY || "");
 
+        /**
+         * Checks if the user is already logged in, if they are, log them in automatically
+         * Used in browser refreshes
+         */
+        const persistUser = async () => {
+            try {
+                const isLoggedIn = await m.user.isLoggedIn();
+
+                if (isLoggedIn) {
+                    const { email } = await m.user.getMetadata();
+                    const { address, provider } = await getAddressAndProvider();
+                    setUser({
+                        email: String(email),
+                        address,
+                        provider,
+                    });
+                }
+            } catch (err) {
+                logout();
+            }
+        };
         persistUser();
-    }, []);
+    }, [logout]);
 
     return (
         <UserContext.Provider
