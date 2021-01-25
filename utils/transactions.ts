@@ -2,6 +2,15 @@ import { ethers, BigNumber, utils, Contract } from "ethers";
 import { TokenWithBalance } from "../interfaces/tokens";
 import IERC20ABI from "../abi/IERC20.abi.json";
 
+const ETH_SEND_GAS = 21000;
+
+/**
+ * Given 2 Bignumbers return the biggest
+ * @param a
+ * @param b
+ */
+const maxBn = (a: BigNumber, b: BigNumber) => (a.gte(b) ? a : b);
+
 /**
  * Ensures you are sending to a valid address and you're not sending to yourself
  * @param signer
@@ -26,11 +35,13 @@ export const verifySend = async (
  * @param provider
  * @param address
  * @param amount
+ * @param maxEth
  */
 export const sendEth = async (
     provider: ethers.providers.Web3Provider,
     address: string,
     amount: BigNumber,
+    maxEth: BigNumber,
 ): Promise<ethers.providers.TransactionReceipt> => {
     // Check signer address for safety
     const signer = provider.getSigner();
@@ -48,6 +59,13 @@ export const sendEth = async (
     return receipt;
 };
 
+/**
+ * Send the amount of token from provider to address
+ * @param provider
+ * @param address
+ * @param amount
+ * @param token
+ */
 export const sendERC20 = async (
     provider: ethers.providers.Web3Provider,
     address: string,

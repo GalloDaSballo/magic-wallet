@@ -11,6 +11,7 @@ import SendDropdown from "../SendDropdown";
 
 import styles from "./Send.module.scss";
 import { sendERC20, sendEth } from "../../utils/transactions";
+import { GasSpeed } from "../../interfaces/gas";
 
 const getMinimumStep = (decimals: number): string =>
     String(1 / 10 ** Math.min(decimals, 6)); // 6 decimals max because UX after is abysmal
@@ -40,7 +41,7 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
         [amount, token],
     );
 
-    const [gas, setGas] = useState("");
+    const [gas, setGas] = useState<string>(GasSpeed.fastest);
 
     const useSendableBalances = useMemo(
         (): TokenWithBalance[] =>
@@ -63,7 +64,12 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
             if (token) {
                 tx = await sendERC20(user.provider, address, BNAmount, token);
             } else {
-                tx = await sendEth(user?.provider, address, BNAmount);
+                tx = await sendEth(
+                    user?.provider,
+                    address,
+                    BNAmount,
+                    ethBalance,
+                );
             }
 
             alert(`Success ${tx.transactionHash}`);
@@ -72,8 +78,6 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
         }
         setLoading(false);
     };
-
-    console.log("BNAmount", BNAmount);
 
     return (
         <section className={styles.send}>
@@ -124,19 +128,27 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                     />
                     <div className={styles.formControl__extra}>
                         <span>{token ? token.symbol : "ETH"}</span>
-                        {/* this needs to be converted somehow */}
-                        {/* <span>$1329 USD</span> */}
                     </div>
                 </div>
 
+                {/* If you want to add Gas Controls */}
                 <div className={styles.formControl}>
-                    <label htmlFor="gas">Gas (Transaction Fee)</label>
-                    <input
-                        name="gas"
-                        id="gas"
-                        value={gas}
-                        onChange={(e) => setGas(e.target.value)}
-                    />
+                    <label>How Fast?</label>
+                    <div className={styles.gasOptions}>
+                        {Object.keys(GasSpeed).map((speed) => (
+                            <button
+                                className={`${styles.speedOption} ${
+                                    gas === speed ? styles.active : ""
+                                }`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setGas(speed);
+                                }}
+                            >
+                                {speed}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 <div className={styles.btnContainer}>

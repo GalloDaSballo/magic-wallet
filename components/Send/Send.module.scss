@@ -16,6 +16,20 @@
     }
 
   }
+  .gasOptions {
+    display: flex;
+  }
+  .speedOption{
+    flex: 1;
+    background:#9CA7B8;
+    padding: 15px 15px;
+    border-radius: 7px;
+    border: none;
+
+    &.active {
+      background: #6851FF;
+    }
+  }
 
   &__form {
     padding: 0 32px;
