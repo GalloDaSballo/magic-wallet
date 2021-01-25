@@ -16,3 +16,6 @@ export const getGasPrice = async (speed: GasSpeed): Promise<BigNumber> => {
     const prices = await getGasPrices();
     return utils.parseUnits(String(prices[speed] / 10), "gwei");
 };
+
+export const getFastGasPrice = async (): Promise<BigNumber> =>
+    getGasPrice(GasSpeed.fast);

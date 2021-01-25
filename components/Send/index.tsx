@@ -1,17 +1,17 @@
-import { useState, useMemo, FormEvent } from "react";
-import { ethers, BigNumber } from "ethers";
+import { useState, useEffect, useMemo, FormEvent } from "react";
+import { ethers, utils, BigNumber } from "ethers";
 import useETHBalance from "../../hooks/useETHBalance";
 import useERC20Balances from "../../hooks/useERC20Balances";
 import { TokenWithBalance } from "../../interfaces/tokens";
 import { fromStringToBN } from "../../utils/inputs";
-import { formatETH, formatERC20 } from "../../utils/format";
+import { formatETH, formatERC20, formatGas } from "../../utils/format";
+import { getFastGasPrice } from "../../utils/gas";
 import { useUser } from "../../context/UserContext";
 
 import SendDropdown from "../SendDropdown";
 
 import styles from "./Send.module.scss";
 import { sendERC20, sendEth } from "../../utils/transactions";
-import { GasSpeed } from "../../interfaces/gas";
 
 const getMinimumStep = (decimals: number): string =>
     String(1 / 10 ** Math.min(decimals, 6)); // 6 decimals max because UX after is abysmal
@@ -41,7 +41,14 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
         [amount, token],
     );
 
-    const [gas, setGas] = useState<string>(GasSpeed.fastest);
+    const [gas, setGas] = useState<BigNumber>(BigNumber.from(50));
+    useEffect(() => {
+        const fetchGasPrices = async () => {
+            const fastPrice = await getFastGasPrice();
+            setGas(fastPrice);
+        };
+        fetchGasPrices();
+    }, []);
 
     const useSendableBalances = useMemo(
         (): TokenWithBalance[] =>
@@ -133,22 +140,17 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
 
                 {/* If you want to add Gas Controls */}
                 <div className={styles.formControl}>
-                    <label>How Fast?</label>
-                    <div className={styles.gasOptions}>
-                        {Object.keys(GasSpeed).map((speed) => (
-                            <button
-                                className={`${styles.speedOption} ${
-                                    gas === speed ? styles.active : ""
-                                }`}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setGas(speed);
-                                }}
-                            >
-                                {speed}
-                            </button>
-                        ))}
-                    </div>
+                    <label htmlFor="gas">Gas (Transaction Fee) in gwei</label>
+                    <input
+                        type="number"
+                        name="gas"
+                        id="gas"
+                        value={formatGas(gas)}
+                        onChange={(e) =>
+                            setGas(utils.parseUnits(e.target.value, "gwei"))
+                        }
+                        step={1}
+                    />
                 </div>
 
                 <div className={styles.btnContainer}>
