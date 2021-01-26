@@ -2,14 +2,25 @@ import { ethers, BigNumber, utils, Contract } from "ethers";
 import { TokenWithBalance } from "../interfaces/tokens";
 import IERC20ABI from "../abi/IERC20.abi.json";
 
-const ETH_SEND_GAS = 21000;
+const ETH_SEND_GAS = BigNumber.from(21000);
 
 /**
- * Given 2 Bignumbers return the biggest
- * @param a
- * @param b
+ * Given an amount, a max, gas and gasPrice, returns the maximum amount of Eth we can spend
+ * @param amount
+ * @param maxEth
+ * @param gasPrice
  */
-const maxBn = (a: BigNumber, b: BigNumber) => (a.gte(b) ? a : b);
+export const getMaxEthAfterGas = (
+    amount: BigNumber,
+    maxEth: BigNumber,
+    gasPrice: BigNumber,
+) => {
+    const gasCost = ETH_SEND_GAS.mul(gasPrice);
+    const total = amount.add(gasCost);
+
+    // If you can afford it, send total, else send maxEth - gasCost
+    return maxEth.gte(total) ? amount : maxEth.sub(gasCost);
+};
 
 /**
  * Ensures you are sending to a valid address and you're not sending to yourself
@@ -39,19 +50,21 @@ export const verifySend = async (
  */
 export const sendEth = async (
     provider: ethers.providers.Web3Provider,
-    address: string,
+    to: string,
     amount: BigNumber,
     maxEth: BigNumber,
     gasPrice: BigNumber,
 ): Promise<ethers.providers.TransactionReceipt> => {
     // Check signer address for safety
     const signer = provider.getSigner();
-    await verifySend(signer, address);
+    await verifySend(signer, to);
+
+    const value = getMaxEthAfterGas(amount, maxEth, gasPrice);
 
     // Submit transaction to the blockchain
     const tx = await signer.sendTransaction({
-        to: address,
-        value: amount, // Todo account for gasprice + amount > maxEth
+        to,
+        value,
         gasPrice,
     });
 
