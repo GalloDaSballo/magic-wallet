@@ -4,7 +4,7 @@ import styles from "./Loading.module.scss";
 type Props = {
     address: string;
     amount: string;
-    token: TokenWithBalance;
+    token: TokenWithBalance | null;
 };
 
 const TransferSuccess = ({ address, amount, token }: Props): JSX.Element => {
