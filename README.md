@@ -23,6 +23,20 @@ Run
 
 Just associate the repo to vercel and add your `NEXT_PUBLIC_MAGIC_KEY`
 
+
+## Architecture
+
+Ethers for interacting with Ethereum
+
+Magic Link for Login + Signer
+
+There's a few components that deal with the presentation layer + data
+
+User balance, for Eth and ERC20 tokens is fetched through hooks, see /hooks
+
+In order to fetch all ERC20 Balances at once I used: https://www.npmjs.com/~wbobeirne for
+https://www.npmjs.com/package/eth-balance-checker
+
 ### Thank you:
 
 Magic Inc. for sponsoring the development
