@@ -9,6 +9,7 @@ import { getFastGasPrice } from "../../utils/gas";
 import { useUser } from "../../context/UserContext";
 
 import SendDropdown from "../SendDropdown";
+import TransferSuccess from "../TransferSuccess/TransferSuccess";
 
 import styles from "./Send.module.scss";
 import { sendERC20, sendEth } from "../../utils/transactions";
@@ -44,6 +45,8 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
     const [address, setAddress] = useState("");
     const [amount, setAmount] = useState("");
     const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [hash, setHash] = useState("");
 
     const BNAmount = useMemo(
         () => fromStringToBN(amount, token?.decimals || 18), // Eth has 18 decimals
@@ -99,12 +102,25 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                 );
             }
 
-            alert(`Success ${tx.transactionHash}`);
+            setHash(tx.transactionHash);
+            setSuccess(true);
         } catch (err) {
             alert(`Error  ${err}`);
         }
         setLoading(false);
     };
+
+    const reset = () => {
+        setToken(null);
+        setAddress("");
+        setAmount("");
+        setLoading(false);
+        setSuccess(false);
+    };
+
+    if (success) {
+        return <TransferSuccess goBack={reset} transactionHash={hash} />;
+    }
 
     return (
         <section className={styles.send}>
@@ -160,14 +176,18 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
 
                 {/* If you want to add Gas Controls */}
                 <div className={styles.formControl}>
-                    <label htmlFor="gasPrice">Gas (Transaction Fee) in gwei</label>
+                    <label htmlFor="gasPrice">
+                        Gas (Transaction Fee) in gwei
+                    </label>
                     <input
                         type="number"
                         name="gasPrice"
                         id="gasPrice"
                         value={formatGas(gasPrice)}
                         onChange={(e) =>
-                            setGasPrice(utils.parseUnits(e.target.value, "gwei"))
+                            setGasPrice(
+                                utils.parseUnits(e.target.value, "gwei"),
+                            )
                         }
                         step="1"
                     />
