@@ -4,7 +4,7 @@ export const formatETH = (balance: BigNumber): string => {
     if (!balance) {
         return "0.00";
     }
-    return ethers.utils.formatEther(balance);
+    return parseFloat(ethers.utils.formatEther(balance)).toFixed(6);
 };
 
 export const formatERC20 = (balance: BigNumber, decimals: number): string => {

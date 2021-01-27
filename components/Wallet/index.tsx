@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import useETHBalance from "../../hooks/useETHBalance";
 import useERC20Balances from "../../hooks/useERC20Balances";
-import { useUser } from "../../context/UserContext";
+import { useLogout, useUser } from "../../context/UserContext";
 import { formatETH, formatERC20 } from "../../utils/format";
 
 import Send from "../Send";
@@ -14,6 +14,7 @@ const Wallet = (): JSX.Element | null => {
     const [send, setSend] = useState(false);
     const [receive, setReceive] = useState(false);
     const user = useUser();
+    const logout = useLogout();
 
     const [ethBalance, reloadEth] = useETHBalance();
     const [balances, fetchUserErc20] = useERC20Balances();
@@ -86,6 +87,11 @@ const Wallet = (): JSX.Element | null => {
             <div className={styles.wallet__buttons}>
                 <button onClick={() => setSend(true)}>Send</button>
                 <button onClick={() => setReceive(true)}>Receive</button>
+            </div>
+            <div className={styles.logoutContainer}>
+                <button className={styles.logout} onClick={logout}>
+                    Logout
+                </button>
             </div>
         </section>
     );
