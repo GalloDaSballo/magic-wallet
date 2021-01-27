@@ -10,6 +10,7 @@ import { useUser } from "../../context/UserContext";
 
 import SendDropdown from "../SendDropdown";
 import TransferSuccess from "../TransferSuccess/TransferSuccess";
+import Loading from "../Loading/Loading";
 
 import styles from "./Send.module.scss";
 import { sendERC20, sendEth } from "../../utils/transactions";
@@ -118,6 +119,10 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
         setSuccess(false);
     };
 
+    if (loading) {
+        return <Loading address={address} amount={amount} token={token} />;
+    }
+
     if (success) {
         return <TransferSuccess goBack={reset} transactionHash={hash} />;
     }
@@ -208,8 +213,6 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                         Send
                     </button>
                 </div>
-
-                {loading && <p>Loading</p>}
             </form>
         </section>
     );

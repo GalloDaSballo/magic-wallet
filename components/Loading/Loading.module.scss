@@ -1,4 +1,4 @@
-.transferSuccessful {
+.loading {
   background: #000000;
   height: 100vh;
   display: flex;
@@ -13,7 +13,7 @@
     margin-bottom: 17px;
   }
 
-  h1, p {
+  h2 {
     color: #ffffff;
     font-weight: 300;
   }
