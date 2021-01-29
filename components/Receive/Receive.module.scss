@@ -3,6 +3,7 @@
 .receive {
   min-height: 100vh;
   
+  
   &__header {
     @include header();
   }
@@ -10,6 +11,7 @@
   &__body {
     padding:  57px 32px 39px 32px;
     text-align: center;
+    background: #fff;
 
     span {
       font-size: 14px;
