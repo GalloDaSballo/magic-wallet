@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useUser } from "../context/UserContext";
 import Signup from "../components/Signup";
 import Wallet from "../components/Wallet";
+import Footer from "../components/Footer";
 
 const Home = (): JSX.Element => {
     const user = useUser();
@@ -15,6 +16,7 @@ const Home = (): JSX.Element => {
 
             {!user && <Signup />}
             {user && <Wallet />}
+            <Footer />
         </div>
     );
 };
