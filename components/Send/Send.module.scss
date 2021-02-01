@@ -6,11 +6,11 @@
   background: #fff;
   .sendHeader {
     
-    &__title {
+    .title {
       @include header();
     }
 
-    &__image {
+    .image {
       padding: 32px 57px;
       margin: 0 auto;
       text-align: center;
@@ -32,7 +32,7 @@
     }
   }
 
-  &__form {
+  .form {
     padding: 0 32px;
     @include inputs();
 

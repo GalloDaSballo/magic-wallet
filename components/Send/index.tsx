@@ -130,15 +130,15 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
     return (
         <section className={styles.send}>
             <div className={styles.sendHeader}>
-                <div className={styles.sendHeader__title}>
+                <div className={styles.title}>
                     <h1>Send to</h1>
                 </div>
-                <div className={styles.sendHeader__image}>
+                <div className={styles.image}>
                     <img src="images/send-header.svg" alt="Send to" />
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className={styles.send__form}>
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formControl}>
                     <label htmlFor="sendTo">Send To</label>
                     <input
@@ -174,7 +174,7 @@ const Send = ({ goBackToWallet }: SendProps): JSX.Element => {
                         min="0"
                         max={getMaximumAmount(token, ethBalance)}
                     />
-                    <div className={styles.formControl__extra}>
+                    <div className={styles.extra}>
                         <span>{token ? token.symbol : "ETH"}</span>
                     </div>
                 </div>

@@ -45,9 +45,9 @@ const Wallet = (): JSX.Element | null => {
 
     return (
         <section className={styles.wallet}>
-            <div className={styles.wallet__balance}>
+            <div className={styles.balance}>
                 <span>Your Balance</span>
-                <p className={styles.wallet__totalBalance}>
+                <p className={styles.totalBalance}>
                     {formatETH(ethBalance)} ETH
                 </p>
 
@@ -56,10 +56,10 @@ const Wallet = (): JSX.Element | null => {
             </div>
 
             <div className={styles.main}>
-                <button onClick={reloader} className={styles.main__reloadBtn}>
+                <button onClick={reloader} className={styles.reloadBtn}>
                     Reload Quantities
                 </button>
-                <div className={styles.main__quantity}>
+                <div className={styles.quantity}>
                     {balances.map((token) => (
                         <div key={token.symbol}>
                             {token.balance.gt(0) && (
@@ -84,7 +84,7 @@ const Wallet = (): JSX.Element | null => {
                     ))}
                 </div>
             </div>
-            <div className={styles.wallet__buttons}>
+            <div className={styles.buttons}>
                 <button onClick={() => setSend(true)}>Send</button>
                 <button onClick={() => setReceive(true)}>Receive</button>
             </div>

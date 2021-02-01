@@ -6,11 +6,11 @@
   padding: 108px 0 0 0;
   min-height: 100vh;
 
-  &__balance {
+  .balance {
     text-align: center;
     color: #ffffff;
 
-    .wallet__totalBalance {
+    .totalBalance {
        font-weight: 800;
        font-size: 45px;
        margin-bottom: 45px;
@@ -32,7 +32,7 @@
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -7px 21 rgb(0, 0, 0, 0.16);
 
-    &__reloadBtn {
+    .reloadBtn {
       background-color: transparent;
       border: none;
       font-family: inherit;
@@ -46,7 +46,7 @@
 
 
   }
-  .main__quantity {
+  .quantity {
     color: #000;
     max-height: 30vh;
     overflow: auto;
@@ -88,7 +88,7 @@
     }
   }
 
-  &__buttons {
+  .buttons {
     background: #ffffff;
     padding: 30px 33px;
     display: flex;

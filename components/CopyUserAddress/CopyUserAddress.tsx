@@ -35,9 +35,7 @@ const CopyUserAddress = ({
         <CopyToClipboard text={address} onCopy={() => setCopied(true)}>
             <div
                 className={`${styles.copyUserAddress} ${
-                    color === "blue"
-                        ? styles.copyUserAddress__blue
-                        : styles.copyUserAddress__gray
+                    color === "blue" ? styles.blue : styles.gray
                 }`}
             >
                 <img

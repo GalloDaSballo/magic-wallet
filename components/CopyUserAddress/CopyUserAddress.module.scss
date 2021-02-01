@@ -7,11 +7,11 @@
     border-radius: 25px;
     cursor: pointer;
 
-    &__blue {
+    &.blue {
       background-color: rgb(104, 81, 255, 0.43);
     }
 
-    &__gray {
+    &.gray {
       box-shadow: 0 3px 6px rgba(0, 0,0, 0.16);
     }
 
@@ -19,10 +19,6 @@
       font-size: 15px;
       font-weight: 400;
       margin: 0 auto;
-    }
-
-    img {
-      // margin-right: 11px;
     }
 
 }

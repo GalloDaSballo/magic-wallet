@@ -16,16 +16,16 @@ const Receive = ({ goBackToWallet }: ReceiveProps): JSX.Element | null => {
     }
     return (
         <section className={styles.receive}>
-            <div className={styles.receive__header}>
+            <div className={styles.header}>
                 <h1>Receive</h1>
             </div>
-            <div className={styles.receive__body}>
+            <div className={styles.body}>
                 <QrCode address={user.address} />
 
                 <span>Your Address</span>
                 <CopyUserAddress address={user.address} color="gray" />
 
-                <div className={styles.receive__notif}>
+                <div className={styles.notif}>
                     <img src="/images/etherium.svg" alt="Etherium" />
                     <p>Make sure to send exclusively ETH or ERC-20 Tokens</p>
                 </div>
@@ -33,7 +33,7 @@ const Receive = ({ goBackToWallet }: ReceiveProps): JSX.Element | null => {
                 <button
                     type="button"
                     onClick={goBackToWallet}
-                    className={styles.receive__backBtn}
+                    className={styles.backBtn}
                 >
                     Close
                 </button>
